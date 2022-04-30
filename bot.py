@@ -27,13 +27,9 @@ async def handler(event):
  try:
             await event.download_media(file=open(event.file.name, "wb"))
             pdf_mgmt(event.file.name)
-            await asyncio.wait([ 
-                client.send_file(MY_CHAT_ID,file= open(event.file.name, 'rb'), thumb='thumb.jpg'),
-                client.send_file(MY_CHAT_ID2,file= open(event.file.name, 'rb'), thumb='thumb.jpg'),
-            ])
-          
-
-        
+            await client.send_file(MY_CHAT_ID,file= open(event.file.name, 'rb'), thumb='thumb.jpg')
+            await client.send_file(MY_CHAT_ID2,file= open(event.file.name, 'rb'), thumb='thumb.jpg')
+ 
             remove(event.file.name)
 
         
@@ -70,7 +66,7 @@ def pdf_mgmt (f_name) :
                     pageObj = infile.getPage(i)
                     ex_text = pageObj.extractText()
                     if re.search(pattern, ex_text):
-                        # print(f'Pattern found on Page no: {i}')
+                        print(f'Pattern found on Page no: {i}')
                         delPages.append(i)
                 #deleting required pages and uploading to telegram...
                 if len(delPages) > 0 :
